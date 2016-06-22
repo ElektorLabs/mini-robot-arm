@@ -52,4 +52,4 @@ down.on('interrupt', function (level) {
 
 setInterval(function () {
   motorX.servoWrite(pulseWidthX);
-}, 200);
+}, 100);
