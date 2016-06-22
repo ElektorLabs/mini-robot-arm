@@ -2,22 +2,22 @@ var Gpio = require('pigpio').Gpio,
   left = new Gpio(4, {
     mode: Gpio.INPUT,
     pullUpDown: Gpio.PUD_DOWN,
-    edge: Gpio.RISING_EDGE
+    edge: Gpio.EITHER_EDGE
   }),
   right = new Gpio(17, {
     mode: Gpio.INPUT,
     pullUpDown: Gpio.PUD_DOWN,
-    edge: Gpio.RISING_EDGE
+    edge: Gpio.EITHER_EDGE
   }),
   up = new Gpio(27, {
     mode: Gpio.INPUT,
     pullUpDown: Gpio.PUD_DOWN,
-    edge: Gpio.RISING_EDGE
+    edge: Gpio.EITHER_EDGE
   }),
   down = new Gpio(22, {
     mode: Gpio.INPUT,
     pullUpDown: Gpio.PUD_DOWN,
-    edge: Gpio.RISING_EDGE
+    edge: Gpio.EITHER_EDGE
   }),
   led = new Gpio(18, {mode: Gpio.OUTPUT}),
   motorX = new Gpio(10, {mode: Gpio.OUTPUT}),
@@ -28,19 +28,20 @@ var Gpio = require('pigpio').Gpio,
 
 left.on('interrupt', function (level) {
   led.digitalWrite(level);
-  pulseWidthX = pulseWidthX - incrementX;
-  motorX.servoWrite(pulseWidthX);
+   pulseWidthX = pulseWidthX - incrementX*level;
 });
 right.on('interrupt', function (level) {
   led.digitalWrite(level);
-  pulseWidthX = pulseWidthX + incrementX;
-  motorX.servoWrite(pulseWidthX);
+  pulseWidthX = pulseWidthX + incrementX*level;
 });
 up.on('interrupt', function (level) {
   led.digitalWrite(level);
-  //motorY.servoWrite(pulseWidth+pulseWidth*level);
 });
 down.on('interrupt', function (level) {
   led.digitalWrite(level);
-  //motorY.servoWrite(pulseWidth+pulseWidth*level);
 });
+
+
+setInterval(function () {
+  motorX.servoWrite(pulseWidthX);
+}, 200);
