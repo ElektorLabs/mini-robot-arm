@@ -20,7 +20,7 @@ var Gpio = require('pigpio').Gpio,
     edge: Gpio.RISING_EDGE
   }),
   led = new Gpio(18, {mode: Gpio.OUTPUT}),
-  motor = new Gpio(10, {mode: Gpio.OUTPUT}),
+  motorX = new Gpio(10, {mode: Gpio.OUTPUT}),
   pulseWidthX = 1000,
   incrementX = 100,
   pulseWidthY = 1000,
