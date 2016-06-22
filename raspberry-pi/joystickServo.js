@@ -22,16 +22,24 @@ var Gpio = require('pigpio').Gpio,
   led = new Gpio(18, {mode: Gpio.OUTPUT}),
   motorX = new Gpio(10, {mode: Gpio.OUTPUT}),
   pulseWidthX = 1000,
-  incrementX = 100,
+  incrementX = 10,
   pulseWidthY = 1000,
-  incrementY = 100;
+  incrementY = 10;
 
 left.on('interrupt', function (level) {
   led.digitalWrite(level);
+  if(pulseWidthX<=1000)
+  {
+    return;
+  }
    pulseWidthX = pulseWidthX - incrementX*level;
 });
 right.on('interrupt', function (level) {
   led.digitalWrite(level);
+   if(pulseWidthX>=2000)
+  {
+    return;
+  }
   pulseWidthX = pulseWidthX + incrementX*level;
 });
 up.on('interrupt', function (level) {
