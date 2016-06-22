@@ -21,22 +21,26 @@ var Gpio = require('pigpio').Gpio,
   }),
   led = new Gpio(18, {mode: Gpio.OUTPUT}),
   motor = new Gpio(10, {mode: Gpio.OUTPUT}),
-  pulseWidth = 1000,
-  increment = 100;
+  pulseWidthX = 1000,
+  incrementX = 100,
+  pulseWidthY = 1000,
+  incrementY = 100;
 
 left.on('interrupt', function (level) {
   led.digitalWrite(level);
-  motor.servoWrite(pulseWidth+pulseWidth*level);
+  pulseWidthX = pulseWidthX - incrementX;
+  motorX.servoWrite(pulseWidthX);
 });
 right.on('interrupt', function (level) {
   led.digitalWrite(level);
-  motor.servoWrite(pulseWidth+pulseWidth*level);
+  pulseWidthX = pulseWidthX + incrementX;
+  motorX.servoWrite(pulseWidthX);
 });
 up.on('interrupt', function (level) {
   led.digitalWrite(level);
-  motor.servoWrite(pulseWidth+pulseWidth*level);
+  //motorY.servoWrite(pulseWidth+pulseWidth*level);
 });
 down.on('interrupt', function (level) {
   led.digitalWrite(level);
-  motor.servoWrite(pulseWidth+pulseWidth*level);
+  //motorY.servoWrite(pulseWidth+pulseWidth*level);
 });
